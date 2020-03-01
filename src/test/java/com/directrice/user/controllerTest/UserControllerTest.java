@@ -29,7 +29,6 @@ public class UserControllerTest {
 
     @BeforeEach
     void setUp() {
-        this.loginDTO=new LoginDTO("rohankadam662@gmail.com","Abcd@123");
 
     }
 
@@ -200,16 +199,127 @@ public class UserControllerTest {
 
     }
 
+    //AUTHENTICATION  TEST CASES FOR USERS
 
+    @Test
+    void givenValidLoginDetails_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.loginDTO=new LoginDTO("rohankadam662@gmail.com","Abcd123");
 
+        String userDTO=new Gson().toJson(this.loginDTO);
+        MvcResult result = this.mockMvc.perform(post("/directrice/user/authenticate")
+                .content(userDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(200,result.getResponse().getStatus());
+        Assert.assertEquals("User Successfully Authenticated.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
 
+    }
 
+    @Test
+    void givenInValidLoginEmailID_NULL_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.loginDTO=new LoginDTO(null,"Abcd@123");
 
+        String userDTO=new Gson().toJson(this.loginDTO);
+        MvcResult result = this.mockMvc.perform(post("/directrice/user/authenticate")
+                .content(userDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(400,result.getResponse().getStatus());
+        Assert.assertEquals("EmailId should not be empty.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
 
+    }
 
+    @Test
+    void givenInValidLoginEmailID_EMPTY_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.loginDTO=new LoginDTO("","Abcd@123");
 
+        String userDTO=new Gson().toJson(this.loginDTO);
+        MvcResult result = this.mockMvc.perform(post("/directrice/user/authenticate")
+                .content(userDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(400,result.getResponse().getStatus());
+        Assert.assertEquals("EmailId should not be empty.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
 
+    }
 
+    @Test
+    void givenInValidLoginEmailID_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.loginDTO=new LoginDTO("rohankadam@.com","Abcd@123");
+
+        String userDTO=new Gson().toJson(this.loginDTO);
+        MvcResult result = this.mockMvc.perform(post("/directrice/user/authenticate")
+                .content(userDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(400,result.getResponse().getStatus());
+        Assert.assertEquals("Invalid email-id in username.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+
+    }
+
+    @Test
+    void givenInValidLoginPassword_NULL_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.loginDTO=new LoginDTO("rohankadam@abc.com",null);
+
+        String userDTO=new Gson().toJson(this.loginDTO);
+        MvcResult result = this.mockMvc.perform(post("/directrice/user/authenticate")
+                .content(userDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(400,result.getResponse().getStatus());
+        Assert.assertEquals("Password length should be min 6 and max 8.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+
+    }
+
+    @Test
+    void givenInValidLoginPassword_EMPTY_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.loginDTO=new LoginDTO("rohankadam@abc.com","");
+
+        String userDTO=new Gson().toJson(this.loginDTO);
+        MvcResult result = this.mockMvc.perform(post("/directrice/user/authenticate")
+                .content(userDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(400,result.getResponse().getStatus());
+        Assert.assertEquals("Password length should be min 6 and max 8.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+
+    }
+
+    @Test
+    void givenInValidLoginPassword_MIN_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.loginDTO=new LoginDTO("rohankadam@abc.com","rohan");
+
+        String userDTO=new Gson().toJson(this.loginDTO);
+        MvcResult result = this.mockMvc.perform(post("/directrice/user/authenticate")
+                .content(userDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(400,result.getResponse().getStatus());
+        Assert.assertEquals("Password length should be min 6 and max 8.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+
+    }
+
+    @Test
+    void givenInValidLoginPassword_MAX_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.loginDTO=new LoginDTO("rohankadam@abc.com","rohan123456");
+
+        String userDTO=new Gson().toJson(this.loginDTO);
+        MvcResult result = this.mockMvc.perform(post("/directrice/user/authenticate")
+                .content(userDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(400,result.getResponse().getStatus());
+        Assert.assertEquals("Password length should be min 6 and max 8.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+
+    }
 
 
 }
