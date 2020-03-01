@@ -33,6 +33,8 @@ public class UserControllerTest {
 
     }
 
+    //  CONTROLLER TEST CASES FOR REGISTRATION
+
     @Test
     void givenValidUserDTO_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
         this.userDTO=new UserDTO("rohankadam662@gmail.com","Rohan123","Rohan123");
