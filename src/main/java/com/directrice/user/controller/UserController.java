@@ -1,9 +1,6 @@
 package com.directrice.user.controller;
 
-import com.directrice.user.dto.LoginDTO;
-import com.directrice.user.dto.ResetPasswordDTO;
-import com.directrice.user.dto.ResponseDTO;
-import com.directrice.user.dto.UserDTO;
+import com.directrice.user.dto.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -54,6 +51,18 @@ public class UserController {
                                                      @RequestBody @Valid ResetPasswordDTO resetPasswordDTO,
                                                      BindingResult bindingResult)
     {
+        if(bindingResult.hasErrors())
+            return new ResponseEntity<ResponseDTO>(new ResponseDTO(bindingResult.getAllErrors().get(0).getDefaultMessage(),""),
+                    HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<ResponseDTO>(new ResponseDTO("Password Updated Successfully.", ""),
+                HttpStatus.OK);
+    }
+
+    @PostMapping("/forgotPassword")
+    public ResponseEntity<ResponseDTO> forgotPassword(@RequestHeader String token,
+                                                      @RequestBody @Valid ForgotPasswordDTO forgotPasswordDTO,
+                                                      BindingResult bindingResult){
         if(bindingResult.hasErrors())
             return new ResponseEntity<ResponseDTO>(new ResponseDTO(bindingResult.getAllErrors().get(0).getDefaultMessage(),""),
                     HttpStatus.BAD_REQUEST);

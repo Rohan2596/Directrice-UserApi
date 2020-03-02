@@ -1,9 +1,6 @@
 package com.directrice.user.controllerTest;
 
-import com.directrice.user.dto.LoginDTO;
-import com.directrice.user.dto.ResetPasswordDTO;
-import com.directrice.user.dto.ResponseDTO;
-import com.directrice.user.dto.UserDTO;
+import com.directrice.user.dto.*;
 import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,6 +26,7 @@ public class UserControllerTest {
     private UserDTO userDTO;
     private LoginDTO loginDTO;
     private ResetPasswordDTO resetPasswordDTO;
+    private ForgotPasswordDTO forgotPasswordDTO;
 
     @BeforeEach
     void setUp() {
@@ -489,6 +487,84 @@ public class UserControllerTest {
     }
 
 
+    @Test
+    void givenValidForgotPassword_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.forgotPasswordDTO=new ForgotPasswordDTO();
+        this.forgotPasswordDTO.setPassword("ROHAN123");
+        String forgotPasswordDTO=new Gson().toJson(this.forgotPasswordDTO);
+        MvcResult result = this.mockMvc.perform(post("/directrice/user/forgotPassword")
+                .header("token","token")
+                .content(forgotPasswordDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(200,result.getResponse().getStatus());
+        Assert.assertEquals("Password Updated Successfully.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+
+    }
+
+    @Test
+    void givenInValidForgotPassword_Null_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.forgotPasswordDTO=new ForgotPasswordDTO();
+        this.forgotPasswordDTO.setPassword(null);
+        String forgotPasswordDTO=new Gson().toJson(this.forgotPasswordDTO);
+        MvcResult result = this.mockMvc.perform(post("/directrice/user/forgotPassword")
+                .header("token","token")
+                .content(forgotPasswordDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(400,result.getResponse().getStatus());
+        Assert.assertEquals("Password length should be min 6 and max 8.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+
+    }
+
+    @Test
+    void givenInValidForgotPassword_Empty_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.forgotPasswordDTO=new ForgotPasswordDTO();
+        this.forgotPasswordDTO.setPassword("");
+        String forgotPasswordDTO=new Gson().toJson(this.forgotPasswordDTO);
+        MvcResult result = this.mockMvc.perform(post("/directrice/user/forgotPassword")
+                .header("token","token")
+                .content(forgotPasswordDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(400,result.getResponse().getStatus());
+        Assert.assertEquals("Password length should be min 6 and max 8.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+
+    }
+
+    @Test
+    void givenInValidForgotPassword_Min_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.forgotPasswordDTO=new ForgotPasswordDTO();
+        this.forgotPasswordDTO.setPassword("Rohan");
+        String forgotPasswordDTO=new Gson().toJson(this.forgotPasswordDTO);
+        MvcResult result = this.mockMvc.perform(post("/directrice/user/forgotPassword")
+                .header("token","token")
+                .content(forgotPasswordDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(400,result.getResponse().getStatus());
+        Assert.assertEquals("Password length should be min 6 and max 8.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+
+    }
+    @Test
+    void givenInValidForgotPassword_Max_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.forgotPasswordDTO=new ForgotPasswordDTO();
+        this.forgotPasswordDTO.setPassword("Rohan12344");
+        String forgotPasswordDTO=new Gson().toJson(this.forgotPasswordDTO);
+        MvcResult result = this.mockMvc.perform(post("/directrice/user/forgotPassword")
+                .header("token","token")
+                .content(forgotPasswordDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(400,result.getResponse().getStatus());
+        Assert.assertEquals("Password length should be min 6 and max 8.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+
+    }
 
 
 
