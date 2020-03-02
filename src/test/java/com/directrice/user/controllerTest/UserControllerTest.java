@@ -1,6 +1,7 @@
 package com.directrice.user.controllerTest;
 
 import com.directrice.user.dto.LoginDTO;
+import com.directrice.user.dto.ResetPasswordDTO;
 import com.directrice.user.dto.ResponseDTO;
 import com.directrice.user.dto.UserDTO;
 import com.google.gson.Gson;
@@ -15,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @SpringBootTest
@@ -24,8 +26,9 @@ public class UserControllerTest {
     @Autowired
     public MockMvc mockMvc;
 
-    public UserDTO userDTO;
-    public LoginDTO loginDTO;
+    private UserDTO userDTO;
+    private LoginDTO loginDTO;
+    private ResetPasswordDTO resetPasswordDTO;
 
     @BeforeEach
     void setUp() {
@@ -320,6 +323,174 @@ public class UserControllerTest {
                 new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
 
     }
+
+    //GETTING USER DETAILS
+
+    @Test
+    void givenValidToken_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/directrice/user/getUser")
+                .header("token","token")
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(302,result.getResponse().getStatus());
+        Assert.assertEquals("User Found.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+
+    }
+
+    @Test
+    void givenValidToken_ALL_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/directrice/user/getAll")
+                .header("token","token")
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(302,result.getResponse().getStatus());
+        Assert.assertEquals("Users List.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+
+    }
+
+    ///Controller Test cases for Reset Password
+
+
+    @Test
+    void givenValidResetPasswordDTO_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.resetPasswordDTO=new ResetPasswordDTO("ROHAN123","ROHAN123");
+        String resetPasswordDTO=new Gson().toJson(this.resetPasswordDTO);
+        MvcResult result = this.mockMvc.perform(post("/directrice/user/resetPassword")
+                .header("token","token")
+                .content(resetPasswordDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(200,result.getResponse().getStatus());
+        Assert.assertEquals("Password Updated Successfully.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+
+    }
+
+    @Test
+    void givenINvalidOldPassword_Null_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.resetPasswordDTO=new ResetPasswordDTO(null,"ROHAN123");
+        String resetPasswordDTO=new Gson().toJson(this.resetPasswordDTO);
+        MvcResult result = this.mockMvc.perform(post("/directrice/user/resetPassword")
+                .header("token","token")
+                .content(resetPasswordDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(400,result.getResponse().getStatus());
+        Assert.assertEquals("Password length should be min 6 and max 8.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+
+    }
+
+    @Test
+    void givenInvalidOldPassword_Min_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.resetPasswordDTO=new ResetPasswordDTO("Rohan","ROHAN123");
+        String resetPasswordDTO=new Gson().toJson(this.resetPasswordDTO);
+        MvcResult result = this.mockMvc.perform(post("/directrice/user/resetPassword")
+                .header("token","token")
+                .content(resetPasswordDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(400,result.getResponse().getStatus());
+        Assert.assertEquals("Password length should be min 6 and max 8.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+
+    }
+
+    @Test
+    void givenInvalidOldPassword_Max_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.resetPasswordDTO=new ResetPasswordDTO("Rohanaerwr","ROHAN123");
+        String resetPasswordDTO=new Gson().toJson(this.resetPasswordDTO);
+        MvcResult result = this.mockMvc.perform(post("/directrice/user/resetPassword")
+                .header("token","token")
+                .content(resetPasswordDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(400,result.getResponse().getStatus());
+        Assert.assertEquals("Password length should be min 6 and max 8.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+
+    }
+
+    @Test
+    void givenInvalidOldPassword_Empty_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.resetPasswordDTO=new ResetPasswordDTO("","ROHAN123");
+        String resetPasswordDTO=new Gson().toJson(this.resetPasswordDTO);
+        MvcResult result = this.mockMvc.perform(post("/directrice/user/resetPassword")
+                .header("token","token")
+                .content(resetPasswordDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(400,result.getResponse().getStatus());
+        Assert.assertEquals("Password length should be min 6 and max 8.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+
+    }
+
+    @Test
+    void givenInvalidNewPassword_Empty_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.resetPasswordDTO=new ResetPasswordDTO("ROHAN123","");
+        String resetPasswordDTO=new Gson().toJson(this.resetPasswordDTO);
+        MvcResult result = this.mockMvc.perform(post("/directrice/user/resetPassword")
+                .header("token","token")
+                .content(resetPasswordDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(400,result.getResponse().getStatus());
+        Assert.assertEquals("Password length should be min 6 and max 8.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+
+    }
+
+    @Test
+    void givenInvalidNewPassword_Null_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.resetPasswordDTO=new ResetPasswordDTO("ROHAN123",null);
+        String resetPasswordDTO=new Gson().toJson(this.resetPasswordDTO);
+        MvcResult result = this.mockMvc.perform(post("/directrice/user/resetPassword")
+                .header("token","token")
+                .content(resetPasswordDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(400,result.getResponse().getStatus());
+        Assert.assertEquals("Password length should be min 6 and max 8.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+
+    }
+
+    @Test
+    void givenInvalidNewPassword_Min_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.resetPasswordDTO=new ResetPasswordDTO("ROHAN123","ROHAN");
+        String resetPasswordDTO=new Gson().toJson(this.resetPasswordDTO);
+        MvcResult result = this.mockMvc.perform(post("/directrice/user/resetPassword")
+                .header("token","token")
+                .content(resetPasswordDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(400,result.getResponse().getStatus());
+        Assert.assertEquals("Password length should be min 6 and max 8.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+
+    }
+
+    @Test
+    void givenInvalidNewPassword_Max_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.resetPasswordDTO=new ResetPasswordDTO("ROHAN123","ROHAN12343436");
+        String resetPasswordDTO=new Gson().toJson(this.resetPasswordDTO);
+        MvcResult result = this.mockMvc.perform(post("/directrice/user/resetPassword")
+                .header("token","token")
+                .content(resetPasswordDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(400,result.getResponse().getStatus());
+        Assert.assertEquals("Password length should be min 6 and max 8.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+
+    }
+
+
+
+
 
 
 }
