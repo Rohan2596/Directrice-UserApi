@@ -1,9 +1,9 @@
 package com.directrice.user.controllerTest;
 
 import com.directrice.user.dto.*;
+import com.directrice.user.response.Response;
 import com.google.gson.Gson;
 import org.junit.Assert;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -28,10 +27,7 @@ public class UserControllerTest {
     private ResetPasswordDTO resetPasswordDTO;
     private ForgotPasswordDTO forgotPasswordDTO;
 
-    @BeforeEach
-    void setUp() {
 
-    }
 
     //  CONTROLLER TEST CASES FOR REGISTRATION
 
@@ -46,7 +42,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(201,result.getResponse().getStatus());
         Assert.assertEquals("User Successfully Added",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -61,7 +57,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("UserName length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
     @Test
@@ -75,7 +71,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("UserName length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -90,7 +86,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("UserName length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -105,7 +101,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("EmailId should not be empty.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -120,7 +116,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Invalid email-id in username.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -136,7 +132,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("EmailId should not be empty.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -151,7 +147,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Password length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -166,7 +162,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Password length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -181,7 +177,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Password length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -196,7 +192,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Password length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -213,7 +209,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(200,result.getResponse().getStatus());
         Assert.assertEquals("User Successfully Authenticated.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -228,7 +224,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("EmailId should not be empty.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -243,7 +239,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("EmailId should not be empty.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -258,7 +254,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Invalid email-id in username.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -273,7 +269,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Password length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -288,7 +284,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Password length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -303,7 +299,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Password length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -318,7 +314,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Password length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -332,7 +328,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(302,result.getResponse().getStatus());
         Assert.assertEquals("User Found.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -344,7 +340,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(302,result.getResponse().getStatus());
         Assert.assertEquals("Users List.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -362,7 +358,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(200,result.getResponse().getStatus());
         Assert.assertEquals("Password Updated Successfully.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -377,7 +373,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Password length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -392,7 +388,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Password length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -407,7 +403,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Password length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -422,7 +418,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Password length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -437,7 +433,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Password length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -452,7 +448,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Password length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -467,7 +463,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Password length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -482,7 +478,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Password length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -499,7 +495,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(200,result.getResponse().getStatus());
         Assert.assertEquals("Password Updated Successfully.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -515,7 +511,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Password length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -531,7 +527,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Password length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
@@ -547,7 +543,7 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Password length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
     @Test
@@ -562,7 +558,23 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Password length should be min 6 and max 8.",
-                new Gson().fromJson(result.getResponse().getContentAsString(), ResponseDTO.class).message);
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
+
+    }
+    ///Email Verification Test
+    @Test
+    void givenValidEmailID_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
+        this.forgotPasswordDTO=new ForgotPasswordDTO();
+        this.forgotPasswordDTO.setPassword("Rohan12344");
+        String forgotPasswordDTO=new Gson().toJson(this.forgotPasswordDTO);
+        MvcResult result = this.mockMvc.perform(get("/directrice/user/confirm_verification/{token}","token")
+//                .pathInfo("/directrice/user/confirm_verification/{token}")
+                .content(forgotPasswordDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(200,result.getResponse().getStatus());
+        Assert.assertEquals("EmailId Successfully Verified.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }
 
