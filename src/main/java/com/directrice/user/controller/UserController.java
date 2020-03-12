@@ -2,6 +2,8 @@ package com.directrice.user.controller;
 
 import com.directrice.user.dto.*;
 import com.directrice.user.response.Response;
+import com.directrice.user.service.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -13,12 +15,16 @@ import javax.validation.Valid;
 @RequestMapping("/directrice/user")
 public class UserController {
 
+    @Autowired
+    private UserServiceImpl userService;
+
     @PostMapping("/register")
     public ResponseEntity<Response> register(@RequestBody @Valid UserDTO userDTO,
                                              BindingResult  bindingResult) {
         if(bindingResult.hasErrors())
             return new ResponseEntity<Response>(new Response(bindingResult.getAllErrors().get(0).getDefaultMessage(),""),
                     HttpStatus.BAD_REQUEST);
+        userService.addUser(userDTO);
         return new ResponseEntity<Response>(new Response("User Successfully Added", ""),
                 HttpStatus.CREATED);
     }
