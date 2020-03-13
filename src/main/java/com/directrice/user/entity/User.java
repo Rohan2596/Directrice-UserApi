@@ -1,24 +1,29 @@
 package com.directrice.user.entity;
 
-import com.directrice.user.dto.UserDTO;
-import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+
+import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 
 
-@Document
+@Entity
+@Data
 public class User  {
 
     @Id
-    private String userId;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Type(type = "uuid-char")
+    private  UUID userId;
     private String name;
-    @DBRef
+    @OneToOne
     private UserCredentials userCredentials;
     private LocalDateTime createdTimeStamp=LocalDateTime.now();
     private LocalDateTime updatedTimeStamp=LocalDateTime.now();
@@ -27,5 +32,8 @@ public class User  {
        this.name=userName;
        this.userCredentials= userCredentials;
 
+    }
+
+    public User() {
     }
 }

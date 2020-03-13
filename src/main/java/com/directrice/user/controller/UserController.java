@@ -1,6 +1,7 @@
 package com.directrice.user.controller;
 
 import com.directrice.user.dto.*;
+import com.directrice.user.entity.User;
 import com.directrice.user.response.Response;
 import com.directrice.user.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/directrice/user")
@@ -19,7 +21,7 @@ public class UserController {
     private UserServiceImpl userService;
 
     @PostMapping("/register")
-    public ResponseEntity<Response> register(@RequestBody @Valid UserDTO userDTO,
+    public ResponseEntity<Response> register(@Valid  @RequestBody UserDTO userDTO,
                                              BindingResult  bindingResult) {
         if(bindingResult.hasErrors())
             return new ResponseEntity<Response>(new Response(bindingResult.getAllErrors().get(0).getDefaultMessage(),""),
@@ -36,19 +38,23 @@ public class UserController {
         if(bindingResult.hasErrors())
             return new ResponseEntity<Response>(new Response(bindingResult.getAllErrors().get(0).getDefaultMessage(),""),
                     HttpStatus.BAD_REQUEST);
+        String token=userService.authenticate(loginDTO);
 
-        return new ResponseEntity<Response>(new Response("User Successfully Authenticated.", ""),
+
+        return new ResponseEntity<Response>(new Response("User Successfully Authenticated.", token),
                 HttpStatus.OK);
     }
 
     @GetMapping("/getUser")
-    public ResponseEntity<Response> getUserDetails(){
-        return new ResponseEntity<Response>(new Response("User Found.", ""),
+    public ResponseEntity<Response> getUserDetails(@RequestHeader String token){
+        User user=userService.getUser(token);
+        return new ResponseEntity<Response>(new Response("User Found.", user),
                 HttpStatus.FOUND);
     }
 
     @GetMapping("/getAll")
     public ResponseEntity<Response> getUserDetailsAll(){
+        userService.getAll();
         return new ResponseEntity<Response>(new Response("Users List.", ""),
                 HttpStatus.FOUND);
     }
@@ -61,7 +67,7 @@ public class UserController {
         if(bindingResult.hasErrors())
             return new ResponseEntity<Response>(new Response(bindingResult.getAllErrors().get(0).getDefaultMessage(),""),
                     HttpStatus.BAD_REQUEST);
-
+        String result=userService.resetPassword(resetPasswordDTO);
         return new ResponseEntity<Response>(new Response("Password Updated Successfully.", ""),
                 HttpStatus.OK);
     }
@@ -73,15 +79,16 @@ public class UserController {
         if(bindingResult.hasErrors())
             return new ResponseEntity<Response>(new Response(bindingResult.getAllErrors().get(0).getDefaultMessage(),""),
                     HttpStatus.BAD_REQUEST);
-
-        return new ResponseEntity<Response>(new Response("Password Updated Successfully.", ""),
+      String result=userService.forgotPassword(forgotPasswordDTO);
+        return new ResponseEntity<Response>(new Response("Password Updated Successfully.", result),
                 HttpStatus.OK);
     }
 
     @GetMapping("confirm_verification/{token}")
     public ResponseEntity<Response> verify(@PathVariable String token){
+        Boolean verfiy=userService.verify(token);
 
-        return new ResponseEntity<Response>(new Response("EmailId Successfully Verified.", ""),
+        return new ResponseEntity<Response>(new Response("EmailId Successfully Verified.", verfiy),
                 HttpStatus.OK);
 
     }

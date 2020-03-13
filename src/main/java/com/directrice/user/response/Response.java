@@ -10,7 +10,9 @@ public class Response {
     public String message;
     private Object data;
 
-    public Response(String message, Object s) {
+    public Response(String message, Object data) {
+        this.message=message;
+        this.data=data;
     }
 }
 
