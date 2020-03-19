@@ -1,23 +1,26 @@
 package com.directrice.user.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class ForgotPasswordDTO  implements Serializable {
 
-    @NotEmpty(message = "Password length should be min 6 and max 8.")
-    @Length(min = 6, max = 8, message = "Password length should be min 6 and max 8.")
-    private String password;
+    @Email(message = "Invalid email-id in username.")
+    @NotEmpty(message = "EmailId should not be empty.")
+    @NotNull(message = "EmailId should not be empty.")
+    private String emailId;
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+
 }
