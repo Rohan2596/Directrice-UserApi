@@ -9,6 +9,8 @@ import com.auth0.jwt.interfaces.Verification;
 import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
+import java.time.Instant;
+import java.util.Date;
 import java.util.UUID;
 
 @Component
@@ -28,7 +30,13 @@ public class TokenGenerators {
             e.printStackTrace();
         }
 
-        String token = JWT.create().withClaim("ID", String.valueOf(id)).sign(algorithm);
+
+        String token = JWT.create()
+                            .withClaim("ID", String.valueOf(id))
+                //token active for 5 minutes
+                .withExpiresAt(Date.from(Instant.now().plusSeconds(300)))
+                        .sign(algorithm);
+
         return token;
     }
 

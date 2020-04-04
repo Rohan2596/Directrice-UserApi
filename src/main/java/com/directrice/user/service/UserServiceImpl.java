@@ -8,6 +8,7 @@ import com.directrice.user.respository.UserCredentialsRepository;
 import com.directrice.user.respository.UserRepository;
 
 import com.directrice.user.utility.TokenGenerators;
+import com.directrice.user.utility.mail.SendEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private TokenGenerators tokenGenerators;
 
+    @Autowired
+    private SendEmail sendEmail;
+
     @Override
     public User addUser(UserDTO userDTO) {
         Optional<User> optionalUser=userRepository.findByEmailId(userDTO.getEmailId());
@@ -38,6 +42,11 @@ public class UserServiceImpl implements UserService {
             UserCredentials userCredentials = new UserCredentials(userDTO.getEmailId(), userDTO.getPassword());
             userCredentialsRepository.save(userCredentials);
             User user = new User(userDTO.getUserName(), userDTO.getEmailId(),userCredentials);
+            Email email=new Email(userDTO.getEmailId(),"rohan.kadam@bridgelabz.com","Verification","Registration");
+            email.setBody("http://localhost:8081/directrice/user/confirm_verification/"+"token");
+
+
+            sendEmail.send(email);
             return userRepository.save(user);
         }
         throw  new UserApiException(UserApiException.ExceptionTypes.USER_ALREADY_PRESENT);
@@ -81,7 +90,13 @@ public class UserServiceImpl implements UserService {
     public String forgotPassword(String token,ForgotPasswordDTO forgotPasswordDTO) {
         UUID userId=tokenGenerators.decodeToken(token);
         Optional<User> optionalUser=userRepository.findByEmailId(forgotPasswordDTO.getEmailId());
+
         if(optionalUser.isPresent()){
+            token=tokenGenerators.generateToken(optionalUser.get().getUserId());
+            Email email=new Email(optionalUser.get().getEmailId(),"rohan.kadam@bridgelabz.com","ForgotPassword","Registration");
+            email.setBody("http://localhost:8081/directrice/user/reset_Password/"+token);
+
+            sendEmail.send(email);
             return "Email Sent to Registered one.";
         }
         throw  new UserApiException(UserApiException.ExceptionTypes.UNAUTHORIZED);
