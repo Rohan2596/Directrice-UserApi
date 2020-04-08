@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class UserApiGlobalException {
     @ExceptionHandler(UserApiException.class)
-    public ResponseEntity<Response> handleCMSException(UserApiException userApiException){
-        return new ResponseEntity<Response>(new Response(userApiException.exceptionTypes.errorMessage,""),
+    public ResponseEntity<Response> handleUserException(UserApiException userApiException){
+        return new ResponseEntity<Response>
+                (new Response(userApiException.exceptionTypes.errorMessage,userApiException.exceptionTypes),
                 HttpStatus.BAD_REQUEST);
     }
 }

@@ -26,8 +26,8 @@ public class UserController {
         if(bindingResult.hasErrors())
             return new ResponseEntity<Response>(new Response(bindingResult.getAllErrors().get(0).getDefaultMessage(),""),
                     HttpStatus.BAD_REQUEST);
-        userService.addUser(userDTO);
-        return new ResponseEntity<Response>(new Response("User Successfully Added", ""),
+        String register= userService.addUser(userDTO);
+        return new ResponseEntity<Response>(new Response("User Successfully Added", register),
                 HttpStatus.CREATED);
     }
 

@@ -7,6 +7,7 @@ import com.directrice.user.exception.UserApiException;
 import com.directrice.user.respository.UserCredentialsRepository;
 import com.directrice.user.respository.UserRepository;
 import com.directrice.user.utility.TokenGenerators;
+import com.directrice.user.utility.mail.SendEmail;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,6 +37,9 @@ public class UserServiceTest {
 
     @Mock
     private TokenGenerators tokenGenerators;
+
+    @Mock
+    private SendEmail sendEmail;
 
     private UserDTO userDTO;
     private LoginDTO loginDTO;
@@ -111,11 +115,11 @@ public class UserServiceTest {
     void givenValidUserDTO_WhenAdded_shouldReturnCorrectResponse() {
         Mockito.when(userCredentialsRepository.save(any())).thenReturn(this.userCredentials);
         Mockito.when(userRepository.save(any())).thenReturn(this.user);
+        Mockito.when(tokenGenerators.decodeToken(any())).thenReturn(this.uuid);
         Mockito.when(userRepository.findByEmailId(this.loginDTO.getEmailId())).thenReturn(Optional.empty());
         Mockito.when(userCredentialsRepository.findByEmailID(this.loginDTO.getEmailId())).thenReturn(Optional.empty());
-        User user=userService.addUser(this.userDTO);
-        System.out.println(user.getEmailId());
-        Assert.assertEquals(this.userDTO.getEmailId(),user.getEmailId());
+        String addUser=userService.addUser(this.userDTO);
+        Assert.assertEquals("rohan.kadam@directrice.com",addUser);
 
     }
 
@@ -126,7 +130,7 @@ public class UserServiceTest {
             Mockito.when(userRepository.save(any())).thenReturn(this.user);
 
             Mockito.when(userRepository.findByEmailId(this.userDTO.getEmailId())).thenReturn(this.optionalUser);
-            User user=userService.addUser(this.userDTO);
+            userService.addUser(this.userDTO);
 
         }catch (UserApiException userApiException){
             Assert.assertEquals("User Already present",userApiException.exceptionTypes.errorMessage);
@@ -192,7 +196,7 @@ public class UserServiceTest {
     void givenValidResetPasswordDto_whenVerified_shouldReturnValidResponse(){
         Mockito.when(userRepository.findById(any())).thenReturn(this.optionalUser);
         String result=userService.resetPassword(this.token,this.resetPasswordDTO);
-        Assert.assertEquals("Updated Successfully Forgot password.",result);
+        Assert.assertEquals("rohan.kadam@directrice.com",result);
     }
 
     @Test

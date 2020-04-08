@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     private SendEmail sendEmail;
 
     @Override
-    public User addUser(UserDTO userDTO) {
+    public String addUser(UserDTO userDTO) {
         Optional<User> optionalUser=userRepository.findByEmailId(userDTO.getEmailId());
         if(!optionalUser.isPresent()) {
             Optional<UserCredentials> optionalUserCredentials = userCredentialsRepository.findByEmailID(userDTO.getEmailId());
@@ -42,12 +42,14 @@ public class UserServiceImpl implements UserService {
             UserCredentials userCredentials = new UserCredentials(userDTO.getEmailId(), userDTO.getPassword());
             userCredentialsRepository.save(userCredentials);
             User user = new User(userDTO.getUserName(), userDTO.getEmailId(),userCredentials);
+            userRepository.save(user);
+            String token=tokenGenerators.generateToken(user.getUserId());
             Email email=new Email(userDTO.getEmailId(),"rohan.kadam@bridgelabz.com","Verification","Registration");
-            email.setBody("http://localhost:8081/directrice/user/confirm_verification/"+"token");
+            email.setBody("http://localhost:8081/directrice/user/confirm_verification/"+token);
 
 
             sendEmail.send(email);
-            return userRepository.save(user);
+            return userDTO.getEmailId();
         }
         throw  new UserApiException(UserApiException.ExceptionTypes.USER_ALREADY_PRESENT);
 
@@ -112,7 +114,7 @@ public class UserServiceImpl implements UserService {
         }
         user.getUserCredentials().setPassword(resetPasswordDTO.getConfirmPassword());
         userCredentialsRepository.save(user.getUserCredentials());
-        return "Updated Successfully Forgot password.";
+        return user.getEmailId();
     }
 
     @Override
