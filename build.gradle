@@ -43,12 +43,6 @@ dependencies {
 
 // https://mvnrepository.com/artifact/com.auth0/java-jwt
     compile group: 'com.auth0', name: 'java-jwt', version: '3.8.3'
-/////***GraphQl********//
-    // https://mvnrepository.com/artifact/com.graphql-java/graphql-spring-boot-starter
-    compile group: 'com.graphql-java', name: 'graphql-spring-boot-starter', version: '5.0.2'
-// https://mvnrepository.com/artifact/com.graphql-java/graphql-java-tools
-    compile group: 'com.graphql-java', name: 'graphql-java-tools', version: '5.2.4'
-
 
 }
 

@@ -24,6 +24,7 @@ public class User  {
     private String name;
     private String emailId;
     private Boolean isVerify =false;
+
     @OneToOne
     private UserCredentials userCredentials;
     private LocalDateTime createdTimeStamp=LocalDateTime.now();

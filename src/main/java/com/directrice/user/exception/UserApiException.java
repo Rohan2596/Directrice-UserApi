@@ -9,9 +9,8 @@ public class UserApiException extends RuntimeException {
     public enum ExceptionTypes{
         PASSWORD_INCORRECT("Invalid Password."),
         USER_ALREADY_PRESENT("User Already present"),
-        UNAUTHORIZED("Unauthorized User")
-
-        ;
+        UNAUTHORIZED("Unauthorized User"),
+        INVALID_KYC_ID("Invalid KYC Id.");
 
         public String errorMessage;
         ExceptionTypes(String errorMessage) {
