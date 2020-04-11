@@ -34,7 +34,7 @@ public class TokenGenerators {
         String token = JWT.create()
                             .withClaim("ID", String.valueOf(id))
                 //token active for 5 minutes
-                .withExpiresAt(Date.from(Instant.now().plusSeconds(300)))
+                .withExpiresAt(Date.from(Instant.now().plusSeconds(30000)))
                         .sign(algorithm);
 
         return token;

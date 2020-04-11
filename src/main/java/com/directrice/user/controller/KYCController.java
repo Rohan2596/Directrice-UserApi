@@ -22,8 +22,7 @@ public class KYCController {
     @PostMapping
     public ResponseEntity<Response> createKycDocuments(@RequestHeader String token) {
 
-        kycServiceImp.createKYCDocuments(token);
-        return new ResponseEntity<Response>(new Response("KYC process initialized.",kycServiceImp.createKYCDocuments(token)),
+        return new ResponseEntity<Response>(new Response("KYCDetails process initialized.",kycServiceImp.createKYCDocuments(token)),
                 HttpStatus.CREATED);
     }
 
@@ -35,19 +34,20 @@ public class KYCController {
             return new ResponseEntity<Response>(new Response(bindingResult.getAllErrors().get(0).getDefaultMessage(),""),
                     HttpStatus.BAD_REQUEST);
        String updateKYC= kycServiceImp.updateKYCDocuments(token,kycDTO);
-        return new ResponseEntity<Response>(new Response("KYC process initialized.",updateKYC),
+        return new ResponseEntity<Response>(new Response("KYCDetails process initialized.",updateKYC),
                 HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<Response> getUserKycDocuments(@RequestHeader String token) {
-        return new ResponseEntity<Response>(new Response("KYC process initialized.",kycServiceImp.getUserDocuments(token)),
+    public ResponseEntity<Response> getUserKycDocuments(@RequestHeader String token,
+                                                        @RequestParam String kycId) {
+        return new ResponseEntity<Response>(new Response("KYCDetails process initialized.",kycServiceImp.getUserDocuments(token,kycId)),
                 HttpStatus.CREATED);
     }
 
     @GetMapping("/all")
     public ResponseEntity<Response> getUserAllKycDocuments() {
-        return new ResponseEntity<Response>(new Response("KYC process initialized.",kycServiceImp.getAllUserDocuments()),
+        return new ResponseEntity<Response>(new Response("KYCDetails process initialized.",kycServiceImp.getAllUserDocuments()),
                 HttpStatus.CREATED);
     }
 
