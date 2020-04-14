@@ -14,6 +14,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin(allowedHeaders = "*", origins = "*")
 @RequestMapping("/directrice/user")
 public class UserController {
 
@@ -93,6 +94,14 @@ public class UserController {
                 HttpStatus.OK);
 
     }
+
+
+    @GetMapping("/userId")
+    public UserSummary getUserId(@RequestParam String token){
+        UserSummary userSummary=userService.getUser(token);
+        return userSummary;
+    }
+
 
 
 

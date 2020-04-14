@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
             }
             UserCredentials userCredentials = new UserCredentials(userDTO.getEmailId(), userDTO.getPassword());
             userCredentialsRepository.save(userCredentials);
-            User user = new User(userDTO.getUserName(), userDTO.getEmailId(),userCredentials);
+            User user = new User(userDTO.getUserName(), userDTO.getEmailId(),userCredentials,userDTO.getMobileNumber());
             userRepository.save(user);
             String token=tokenGenerators.generateToken(user.getUserId());
             Email email=new Email(userDTO.getEmailId(),"rohan.kadam@bridgelabz.com","Verification","Registration");
@@ -79,9 +79,20 @@ public class UserServiceImpl implements UserService {
         User user= this.verifyUser(userID);
         user.getName();
         user.getUserCredentials().getEmailID();
-        UserSummary userSummary=new UserSummary(user.getUserCredentials().getEmailID(),user.getName());
+        UserSummary userSummary=new UserSummary(userID.toString(),user.getUserCredentials().getEmailID(),user.getName());
         return userSummary;
     }
+
+
+    public UserSummary getUserId(String token){
+        UUID userId= tokenGenerators.decodeToken(token);
+        User user= this.verifyUser(userId);
+        user.getName();
+        user.getUserCredentials().getEmailID();
+        UserSummary userSummary=new UserSummary(userId.toString(),user.getUserCredentials().getEmailID(),user.getName());
+        return userSummary;
+    }
+
 
     @Override
     public List<User> getAll() {

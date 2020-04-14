@@ -23,6 +23,7 @@ public class User  {
     private  UUID userId;
     private String name;
     private String emailId;
+    private String mobileNumber;
     private Boolean isVerify =false;
 
     @OneToOne
@@ -30,11 +31,11 @@ public class User  {
     private LocalDateTime createdTimeStamp=LocalDateTime.now();
     private LocalDateTime updatedTimeStamp=LocalDateTime.now();
 
-    public User(String userName,String emailId,UserCredentials userCredentials) {
+    public User(String userName,String emailId,UserCredentials userCredentials,String mobileNumber) {
        this.name=userName;
        this.emailId=emailId;
        this.userCredentials= userCredentials;
-
+        this.mobileNumber=mobileNumber;
     }
 
 

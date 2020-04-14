@@ -62,15 +62,15 @@ public class UserServiceTest {
     @BeforeEach
     void setUp(){
         this.loginDTO=new LoginDTO("rohan.kadam@directrice.com","DIRECT@1");
-        this.userDTO=new UserDTO("rohan.kadam@directrice.com","DIRECT@1","Direct@1");
+        this.userDTO=new UserDTO("rohan.kadam@directrice.com","DIRECT@1","Direct@1","7894561230");
         this.optionalUserCredentials=Optional.of(new UserCredentials("rohan.kadam@directrice.com","DIRECT@1"));
-        this.optionalUser=Optional.of(new User("Direct@1","rohan.kadam@directrice.com",this.optionalUserCredentials.get()));
+        this.optionalUser=Optional.of(new User("Direct@1","rohan.kadam@directrice.com",this.optionalUserCredentials.get(),"7894561230"));
         this.token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." +
                 "eyJJRCI6IjdjYTg3YzUyLTZlNDktNDZjMS05N2M1LTE4NDJhNDcxYmZhZSJ9.IkpRi8" +
                 "_SmBvW2meewK2IMLihA09VyYRPpsYrsUNr6UA";
         this.uuid=UUID.randomUUID();
         this.userCredentials=new UserCredentials("rohan.kadam@directrice.com","Direct@1");
-        this.user=new User("Direct@1","rohan.kadam@directrice.com",this.userCredentials);
+        this.user=new User("Direct@1","rohan.kadam@directrice.com",this.userCredentials,"7894561230");
         this.userSummary=new UserSummary("rohan.kadam@directrice.com","Direct@1");
         this.forgotPasswordDTO=new ForgotPasswordDTO("rohan.kadam@directrice.com");
         this.resetPasswordDTO=new ResetPasswordDTO("Direct@1","Direct@1");

@@ -17,9 +17,15 @@ public class UserDTO extends LoginDTO {
     @Length(min = 6, max = 8, message = "UserName length should be min 6 and max 8.")
     private String userName;
 
-    public UserDTO(String emailId, String password, String userName) {
+    @NotNull(message = "MobileNumber length should be 10.")
+    @NotEmpty(message = "MobileNumber length should be 10.")
+    @Length(min = 10, max = 10, message = "MobileNumber length should be 10.")
+    private String mobileNumber;
+
+    public UserDTO(String emailId, String password, String userName,String mobileNumber) {
         super(emailId, password);
         this.userName = userName;
+        this.mobileNumber = mobileNumber;
     }
 
     public String getUserName() {
@@ -28,5 +34,13 @@ public class UserDTO extends LoginDTO {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
 }

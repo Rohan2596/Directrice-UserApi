@@ -36,7 +36,7 @@ public class UserControllerTest {
 
     @Test
     void givenValidUserDTO_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
-        this.userDTO=new UserDTO("rohankadam662@gmail.com","Rohan123","Rohan123");
+        this.userDTO=new UserDTO("rohankadam662@gmail.com","Rohan123","Rohan123","7894561230");
 
         String userDTO=new Gson().toJson(this.userDTO);
         MvcResult result = this.mockMvc.perform(post("/directrice/user/register")
@@ -51,7 +51,7 @@ public class UserControllerTest {
 
     @Test
     void givenInValidUserName_NULL_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
-        this.userDTO=new UserDTO("rohankadam@abc.com","Abcd@123",null);
+        this.userDTO=new UserDTO("rohankadam@abc.com","Abcd@123",null,"7894561230");
 
         String userDTO=new Gson().toJson(this.userDTO);
         MvcResult result = this.mockMvc.perform(post("/directrice/user/register")
@@ -65,7 +65,7 @@ public class UserControllerTest {
     }
     @Test
     void givenInValidUserName_MIN_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
-        this.userDTO=new UserDTO("rohankadam@abc.com","Abcd@123","ROHAN");
+        this.userDTO=new UserDTO("rohankadam@abc.com","Abcd@123","ROHAN","7894561230");
 
         String userDTO=new Gson().toJson(this.userDTO);
         MvcResult result = this.mockMvc.perform(post("/directrice/user/register")
@@ -80,7 +80,7 @@ public class UserControllerTest {
 
     @Test
     void givenInValidUserName_MAX_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
-        this.userDTO=new UserDTO("rohankadam@abc.com","Abcd@123","ROHANKADAM");
+        this.userDTO=new UserDTO("rohankadam@abc.com","Abcd@123","ROHANKADAM","7894561230");
 
         String userDTO=new Gson().toJson(this.userDTO);
         MvcResult result = this.mockMvc.perform(post("/directrice/user/register")
@@ -95,7 +95,7 @@ public class UserControllerTest {
 
     @Test
     void givenInValidEmailId_NULL_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
-        this.userDTO=new UserDTO(null,"Abcd@123","ROHAN123");
+        this.userDTO=new UserDTO(null,"Abcd@123","ROHAN123","7894561230");
 
         String userDTO=new Gson().toJson(this.userDTO);
         MvcResult result = this.mockMvc.perform(post("/directrice/user/register")
@@ -110,7 +110,7 @@ public class UserControllerTest {
 
     @Test
     void givenInValidEmailId_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
-        this.userDTO=new UserDTO("rohankadam","Abcd@123","ROHAN123");
+        this.userDTO=new UserDTO("rohankadam","Abcd@123","ROHAN123","7894561230");
 
         String userDTO=new Gson().toJson(this.userDTO);
         MvcResult result = this.mockMvc.perform(post("/directrice/user/register")
@@ -126,7 +126,7 @@ public class UserControllerTest {
 
     @Test
     void givenInValidEmailId_EMPTY_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
-        this.userDTO=new UserDTO("","Abcd@123","ROHAN123");
+        this.userDTO=new UserDTO("","Abcd@123","ROHAN123","7894561230");
 
         String userDTO=new Gson().toJson(this.userDTO);
         MvcResult result = this.mockMvc.perform(post("/directrice/user/register")
@@ -141,7 +141,7 @@ public class UserControllerTest {
 
     @Test
     void givenInValidPassword_NULL_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
-        this.userDTO=new UserDTO("rohankadam@ac.com",null,"ROHAN123");
+        this.userDTO=new UserDTO("rohankadam@ac.com",null,"ROHAN123","7894561230");
 
         String userDTO=new Gson().toJson(this.userDTO);
         MvcResult result = this.mockMvc.perform(post("/directrice/user/register")
@@ -156,7 +156,7 @@ public class UserControllerTest {
 
     @Test
     void givenInValidPassword_EMPTY_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
-        this.userDTO=new UserDTO("rohankadam@ac.com","","ROHAN123");
+        this.userDTO=new UserDTO("rohankadam@ac.com","","ROHAN123","7894561230");
 
         String userDTO=new Gson().toJson(this.userDTO);
         MvcResult result = this.mockMvc.perform(post("/directrice/user/register")
@@ -171,7 +171,7 @@ public class UserControllerTest {
 
     @Test
     void givenInValidPassword_MIN_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
-        this.userDTO=new UserDTO("rohankadam@ac.com","Rohan","ROHAN123");
+        this.userDTO=new UserDTO("rohankadam@ac.com","Rohan","ROHAN123","7894561230");
 
         String userDTO=new Gson().toJson(this.userDTO);
         MvcResult result = this.mockMvc.perform(post("/directrice/user/register")
@@ -186,7 +186,7 @@ public class UserControllerTest {
 
     @Test
     void givenInValidPassword_MAX_WhenAuthenticated_shouldReturnValidResponse() throws Exception {
-        this.userDTO=new UserDTO("rohankadam@ac.com","ROHAN1234","ROHAN123");
+        this.userDTO=new UserDTO("rohankadam@ac.com","ROHAN1234","ROHAN123","7894561230");
 
         String userDTO=new Gson().toJson(this.userDTO);
         MvcResult result = this.mockMvc.perform(post("/directrice/user/register")
