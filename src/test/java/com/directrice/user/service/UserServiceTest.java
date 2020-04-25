@@ -18,6 +18,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,9 @@ public class UserServiceTest {
 
     @Mock
     private SendEmail sendEmail;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     private UserDTO userDTO;
     private LoginDTO loginDTO;
@@ -71,7 +75,7 @@ public class UserServiceTest {
         this.uuid=UUID.randomUUID();
         this.userCredentials=new UserCredentials("rohan.kadam@directrice.com","Direct@1");
         this.user=new User("Direct@1","rohan.kadam@directrice.com",this.userCredentials,"7894561230");
-        this.userSummary=new UserSummary("rohan.kadam@directrice.com","Direct@1");
+        this.userSummary=new UserSummary("rohan.kadam@directrice.com","Direct@1","rohankadam",true);
         this.forgotPasswordDTO=new ForgotPasswordDTO("rohan.kadam@directrice.com");
         this.resetPasswordDTO=new ResetPasswordDTO("Direct@1","Direct@1");
     }
@@ -79,6 +83,7 @@ public class UserServiceTest {
 
     @Test
     void givenValidLoginDetails_WhenAuthenticated_shouldReturnToken() {
+        Mockito.when(passwordEncoder.matches(any(),any())).thenReturn(true);
         Mockito.when(userRepository.findByEmailId(this.loginDTO.getEmailId())).thenReturn(this.optionalUser);
         Mockito.when(userCredentialsRepository.findByEmailID(this.loginDTO.getEmailId())).thenReturn(this.optionalUserCredentials);
         Mockito.when(tokenGenerators.generateToken(any())).thenReturn(this.token);
@@ -114,6 +119,7 @@ public class UserServiceTest {
     @Test
     void givenValidUserDTO_WhenAdded_shouldReturnCorrectResponse() {
         Mockito.when(userCredentialsRepository.save(any())).thenReturn(this.userCredentials);
+        Mockito.when(passwordEncoder.encode(any())).thenReturn(this.userCredentials.getPassword());
         Mockito.when(userRepository.save(any())).thenReturn(this.user);
         Mockito.when(tokenGenerators.decodeToken(any())).thenReturn(this.uuid);
         Mockito.when(userRepository.findByEmailId(this.loginDTO.getEmailId())).thenReturn(Optional.empty());
@@ -228,6 +234,24 @@ public class UserServiceTest {
 
     }
 
+    //*****************Changing Status of Account*******************//
+
+    @Test
+    void givenValidToken_whenVerified_shouldChange_shouldReturnValidResponse(){
+        Mockito.when(userRepository.findById(any())).thenReturn(this.optionalUser);
+        Boolean result=userService.changeAccountStatus(this.token);
+        Assert.assertTrue(result);
+
+    }
+    @Test
+    void givenInValidToken_whenVerified_ShouldNotChange_shouldReturnValidResponse(){
+        try {
+            userService.changeAccountStatus(this.token);
+        }catch (UserApiException userApiException){
+            Assert.assertEquals("Unauthorized User",userApiException.exceptionTypes.errorMessage);
+        }
+
+    }
 
 
 }

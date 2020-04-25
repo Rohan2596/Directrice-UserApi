@@ -15,4 +15,5 @@ public interface UserService {
     String forgotPassword(String token,ForgotPasswordDTO forgotPasswordDTO);
     String resetPassword(String token,ResetPasswordDTO resetPasswordDTO);
     Boolean verify(String token);
+    Boolean changeAccountStatus(String token);
 }

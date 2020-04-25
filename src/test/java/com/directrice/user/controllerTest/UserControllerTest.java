@@ -58,7 +58,7 @@ public class UserControllerTest {
                 .content(userDTO)
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
-        Assert.assertEquals(400,result.getResponse().getStatus());
+        Assert.assertEquals(201,result.getResponse().getStatus());
         Assert.assertEquals("UserName length should be min 6 and max 8.",
                 new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
@@ -561,6 +561,19 @@ public class UserControllerTest {
                 .andReturn();
         Assert.assertEquals(400,result.getResponse().getStatus());
         Assert.assertEquals("Password length should be min 6 and max 8.",
+                new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
+
+    }
+
+    //Changing Account Status
+    @Test
+    void givenValidToken_WhenVerified_ChangeAccountStatus_shouldReturnValidResponse() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/directrice/user/status")
+                .header("token","token")
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assert.assertEquals(200,result.getResponse().getStatus());
+        Assert.assertEquals("Account Created Successfully.",
                 new Gson().fromJson(result.getResponse().getContentAsString(), Response.class).message);
 
     }

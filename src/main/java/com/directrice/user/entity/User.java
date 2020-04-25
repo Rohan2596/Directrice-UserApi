@@ -25,6 +25,7 @@ public class User  {
     private String emailId;
     private String mobileNumber;
     private Boolean isVerify =false;
+    private Boolean isAccount=false;
 
     @OneToOne
     private UserCredentials userCredentials;

@@ -45,6 +45,8 @@ dependencies {
     compile group: 'com.auth0', name: 'java-jwt', version: '3.8.3'
     //*****************Spring Boot MongoDB*******************************//
     compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
+// https://mvnrepository.com/artifact/org.springframework.security/spring-security-core
+    compile group: 'org.springframework.security', name: 'spring-security-core', version: '5.3.1.RELEASE'
 
 }
 

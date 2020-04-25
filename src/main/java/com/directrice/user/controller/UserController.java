@@ -1,7 +1,6 @@
 package com.directrice.user.controller;
 
 import com.directrice.user.dto.*;
-import com.directrice.user.entity.User;
 import com.directrice.user.response.Response;
 import com.directrice.user.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
-import java.util.List;
+
 
 @RestController
 @CrossOrigin(allowedHeaders = "*", origins = "*")
@@ -95,6 +93,13 @@ public class UserController {
 
     }
 
+
+    @GetMapping("/status")
+    public ResponseEntity<Response> changeAccountStatus(@RequestHeader String token){
+        userService.changeAccountStatus(token);
+        return new ResponseEntity<Response>(new Response("Account Created Successfully.",userService.changeAccountStatus(token)),
+                HttpStatus.OK);
+    }
 
     @GetMapping("/userId")
     public UserSummary getUserId(@RequestParam String token){

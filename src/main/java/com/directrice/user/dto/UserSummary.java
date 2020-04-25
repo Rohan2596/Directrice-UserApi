@@ -7,11 +7,13 @@ public class UserSummary {
     private String userId;
     private String emailId;
     private String name;
+    private Boolean accountStatus;
 
-    public UserSummary(String userId,String emailID, String name) {
+    public UserSummary(String userId,String emailID, String name,Boolean accountStatus) {
         this.userId=userId;
         this.emailId=emailID;
         this.name=name;
+        this.accountStatus=accountStatus;
     }
 
 

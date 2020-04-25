@@ -10,6 +10,7 @@ import com.directrice.user.respository.UserRepository;
 import com.directrice.user.utility.TokenGenerators;
 import com.directrice.user.utility.mail.SendEmail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,6 +32,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private SendEmail sendEmail;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public String addUser(UserDTO userDTO) {
         Optional<User> optionalUser=userRepository.findByEmailId(userDTO.getEmailId());
@@ -39,7 +43,8 @@ public class UserServiceImpl implements UserService {
             if (optionalUserCredentials.isPresent()) {
                 throw new UserApiException(UserApiException.ExceptionTypes.USER_ALREADY_PRESENT);
             }
-            UserCredentials userCredentials = new UserCredentials(userDTO.getEmailId(), userDTO.getPassword());
+            String password=passwordEncoder.encode(userDTO.getPassword());
+            UserCredentials userCredentials = new UserCredentials(userDTO.getEmailId(), password);
             userCredentialsRepository.save(userCredentials);
             User user = new User(userDTO.getUserName(), userDTO.getEmailId(),userCredentials,userDTO.getMobileNumber());
             userRepository.save(user);
@@ -63,7 +68,8 @@ public class UserServiceImpl implements UserService {
        if(optionalUser.isPresent()) {
            Optional<UserCredentials> optionalUserCredentials = userCredentialsRepository.findByEmailID(loginDTO.getEmailId());
            if (optionalUserCredentials.isPresent()){
-               if(!optionalUserCredentials.get().getPassword().equals(loginDTO.getPassword())){
+             Boolean condition=passwordEncoder.matches(loginDTO.getPassword(),optionalUserCredentials.get().getPassword());
+               if(condition.equals(false)){
                    throw new UserApiException(UserApiException.ExceptionTypes.PASSWORD_INCORRECT);
                }
                return tokenGenerators.generateToken(optionalUser.get().getUserId());
@@ -79,7 +85,8 @@ public class UserServiceImpl implements UserService {
         User user= this.verifyUser(userID);
         user.getName();
         user.getUserCredentials().getEmailID();
-        UserSummary userSummary=new UserSummary(userID.toString(),user.getUserCredentials().getEmailID(),user.getName());
+        UserSummary userSummary=new UserSummary(userID.toString(),user.getUserCredentials().getEmailID()
+                ,user.getName(),user.getIsAccount());
         return userSummary;
     }
 
@@ -89,7 +96,10 @@ public class UserServiceImpl implements UserService {
         User user= this.verifyUser(userId);
         user.getName();
         user.getUserCredentials().getEmailID();
-        UserSummary userSummary=new UserSummary(userId.toString(),user.getUserCredentials().getEmailID(),user.getName());
+        UserSummary userSummary=new UserSummary(userId.toString(),
+                                                user.getUserCredentials().getEmailID(),
+                                                user.getName(),
+                                                user.getIsAccount());
         return userSummary;
     }
 
@@ -138,7 +148,16 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
-     private User verifyUser(UUID userId){
+    @Override
+    public Boolean changeAccountStatus(String token) {
+        UUID userId=tokenGenerators.decodeToken(token);
+        User user= this.verifyUser(userId);
+        user.setIsAccount(true);
+        userRepository.save(user);
+        return true;
+    }
+
+    private User verifyUser(UUID userId){
          Optional<User>optionalUser=userRepository.findById(userId);
          if (optionalUser.isPresent()){
              return optionalUser.get();
