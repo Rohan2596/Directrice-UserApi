@@ -9,6 +9,7 @@ import com.directrice.user.respository.UserRepository;
 
 import com.directrice.user.utility.TokenGenerators;
 import com.directrice.user.utility.mail.SendEmail;
+import com.directrice.user.utility.rabbitMQ.RabbitMQSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private TokenGenerators tokenGenerators;
+
+    @Autowired
+    RabbitMQSender rabbitMQSender;
 
     @Autowired
     private SendEmail sendEmail;
@@ -54,6 +58,7 @@ public class UserServiceImpl implements UserService {
 
 
             sendEmail.send(email);
+            rabbitMQSender.send(email);
             return userDTO.getEmailId();
         }
         throw  new UserApiException(UserApiException.ExceptionTypes.USER_ALREADY_PRESENT);
